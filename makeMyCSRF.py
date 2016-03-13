@@ -7,9 +7,9 @@ import getopt
 def usage():
 	print "======================================"
 	print "           Make my CSRF		     "
-	print "     author : Mickael Dorigny         "
+	print " author : Mickael Dorigny         "
 	print " @MickaelDorigny - http://synetis.com "
-	print "    http://information-security.fr    "
+	print " http://information-security.fr    "
 	print "======================================"
 	print "\nHelp :\n"
 	print "This tool will help you to create you auto-submit HTML form for CSRF vulnerability testing and exploitation."
