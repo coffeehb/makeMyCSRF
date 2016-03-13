@@ -15,7 +15,7 @@ def usage():
 	print "This tool will help you to create you auto-submit HTML form for CSRF vulnerability testing and exploitation."
 	print "It takes input from TamperData or BurpSuite analysis. Just copy/paste the request content in a in.txt file and give it to this script."
 	print "\nUsage : python " + sys.argv[0] + " -i <input file> -f <format>"
-	print " -f : Data format, possible format are :\n    Burp (for BurpSuite)\n    Tamper (for TamperData)"
+	print " -f : Data format, possible format are :\n    Burp (for BurpSuite)\n    Tamper (for TamperData - ENG)\n    TamperFR (for TamperData - FR)"
 	print " -i : input file containing data"
 	print " -o : output file destination, otherwhise output is written in terminal"
 	print "\n===================================\nExample :\n"
@@ -67,6 +67,31 @@ def processTamperData(data):
 	        output = output +"\t<input type=hidden name='"+tabParamName.group(1)+"'\tvalue='"+tabParamArg.group(1)+"'>\n"
         return output
 
+def processTamperDataFR(data):
+        ''' Process Tamper Data formatted request to build auto submit HTML form. Adapation for Tamper Data FR formatted data'''
+        # Extract URL/Server name or IP from data
+        servURL = re.search("POST (.*) Indicateur", data, re.IGNORECASE)
+        # build HTML form
+        output = "<form method=POST action='"+ servURL.group(1)+"'>\n"
+        # Extract POST parameters
+        parameters = re.search("es POST:      (.*)   En-t", data, re.IGNORECASE)
+        parameters = parameters.group(1)
+        parameters = parameters.replace ("      ","&")
+        parameters = urllib.unquote(parameters.encode('ascii')).decode('utf-8')
+
+        # Split each parameter
+        tabParameters = parameters.split("&")
+
+        # Write input HTML form from parameters
+        for parameter in tabParameters:
+                tabParamArg = re.search(".*\[(.*)\]$", parameter, re.IGNORECASE)
+                paramArg = tabParamArg.group(1)
+                tabParamName = re.search("(.*)\[" ,parameter, re.IGNORECASE)
+                output = output +"\t<input type=hidden name='"+tabParamName.group(1)+"'\tvalue='"+tabParamArg.group(1)+"'>\n"
+        return output
+
+
+
 myopts, args = getopt.getopt(sys.argv[1:], "i:o:f:h")
 outputFile=""
 
@@ -104,6 +129,8 @@ if dataFormat == "Burp":
 	htmlForm = htmlForm + processBurpSuite (dataToProcess)
 elif dataFormat == "Tamper":
 	htmlForm = htmlForm + processTamperData (dataToProcess)
+elif dataFormat == "TamperFR":
+	htmlForm = htmlForm + processTamperDataFR (dataToProcess)
 else :
 	print "Please specifiy an available data format"
 	usage()
