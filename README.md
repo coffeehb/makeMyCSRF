@@ -41,6 +41,8 @@ This video will show you how to get data from BurpSuite and use it with makeMyCS
 
 [![IMAGE ALT TEXT](http://img.youtube.com/vi/FywHxX72u8Y/3.jpg)](https://youtu.be/FywHxX72u8Y "How to use makeMyCSRF with BurpSuite ")
 
+This video will show you how to get data from Wireshark (HTTP only) and use it with makeMyCSRF :
+
 ## Additionnal note
 Note that Tamper Data generated request will change ***following your browser language***. For the moment, FR and ENG can be used. Please report any other needs or submit your code to process other language ! :)
 
