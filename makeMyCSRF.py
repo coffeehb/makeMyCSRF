@@ -15,12 +15,14 @@ def usage():
 	print "This tool will help you to create your auto-submit HTML form for CSRF vulnerability testing and exploitation."
 	print "It takes input from TamperData or BurpSuite analysis. Just copy/paste the request content in a in.txt file and give it to this script."
 	print "\nUsage : python " + sys.argv[0] + " -i <input file> -f <format>"
-	print " -f : Data format, possible format are :\n    Burp (for BurpSuite)\n    Tamper (for TamperData - ENG)\n    TamperFR (for TamperData - FR)"
+	print " -f : Data format, possible format are :\n    Burp (for BurpSuite)\n    Tamper (for TamperData - ENG)\n    TamperFR (for TamperData - FR)\n    Wireshark (for Wireshark)"
 	print " -i : input file containing data"
 	print " -o : output file destination, otherwhise output is written in terminal"
 	print "\n===================================\nExample :\n"
 	print "./makeMyCSRF -i in.txt -f Burp"
 	print "./makeMyCSRF -i in.txt -f Tamper"
+	print "./makeMyCSRF -i in.txt -f Wireshark -o output.html"
+	print "./makeMyCSRF -i in.txt -f TamperFR -o output.html"
 	return
 
 def processBurpSuite(data):
@@ -125,12 +127,15 @@ for line in inFile:
     dataToProcess = dataToProcess + line.rstrip('\r\n')
 
 # Process data according to specified format
-if dataFormat == "Burp":
+if dataFormat.lower() == "burp":
 	htmlForm = htmlForm + processBurpSuite (dataToProcess)
-elif dataFormat == "Tamper":
+elif dataFormat.lower() == "tamper":
 	htmlForm = htmlForm + processTamperData (dataToProcess)
-elif dataFormat == "TamperFR":
+elif dataFormat.lower() == "tamperfr":
 	htmlForm = htmlForm + processTamperDataFR (dataToProcess)
+elif dataFormat.lower() == "wireshark":
+	# Wireshark format captured request in the same way that BurpSuite
+	htmlForm = htmlForm + processBurpSuite (dataToProcess)
 else :
 	print "Please specifiy an available data format"
 	usage()
