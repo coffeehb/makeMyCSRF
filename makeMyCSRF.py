@@ -33,8 +33,8 @@ def processBurpSuite(data):
 	# Build HTML Form
 	output= "<form method=POST action='http://" + servName.group(1) + servURL.group(1)+"'>\n"
 	# Extract POST parameters
-	parameters = re.search("Connection:.close(.*)$", data, re.IGNORECASE)
-	parameters = parameters.group(1)
+	parameters = re.search("Connection:.(close|keep\-alive)(.*)$", data, re.IGNORECASE)
+	parameters = parameters.group(2)
 	parameters = urllib.unquote(parameters.encode('ascii')).decode('utf-8')
 	
 	# Split each parameter
@@ -126,6 +126,7 @@ htmlForm = "<html><body> \n"
 for line in inFile:
     dataToProcess = dataToProcess + line.rstrip('\r\n')
 
+print dataToProcess
 # Process data according to specified format
 if dataFormat.lower() == "burp":
 	htmlForm = htmlForm + processBurpSuite (dataToProcess)
