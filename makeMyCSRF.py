@@ -126,7 +126,6 @@ htmlForm = "<html><body> \n"
 for line in inFile:
     dataToProcess = dataToProcess + line.rstrip('\r\n')
 
-print dataToProcess
 # Process data according to specified format
 if dataFormat.lower() == "burp":
 	htmlForm = htmlForm + processBurpSuite (dataToProcess)
@@ -150,7 +149,7 @@ if outputFile != "":
 	file = open(outputFile, "w")
 	file.write(htmlForm)
 	file.close()
-	print "Your HTML from is in this file : "+outputFile
+	print "Your HTML form is in this file : "+outputFile
 # Otherwise, write output in terminal directly
 else:
 	print htmlForm
