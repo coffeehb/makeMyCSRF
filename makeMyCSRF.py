@@ -12,7 +12,7 @@ def usage():
 	print " http://information-security.fr    "
 	print "======================================"
 	print "\nHelp :\n"
-	print "This tool will help you to create you auto-submit HTML form for CSRF vulnerability testing and exploitation."
+	print "This tool will help you to create your auto-submit HTML form for CSRF vulnerability testing and exploitation."
 	print "It takes input from TamperData or BurpSuite analysis. Just copy/paste the request content in a in.txt file and give it to this script."
 	print "\nUsage : python " + sys.argv[0] + " -i <input file> -f <format>"
 	print " -f : Data format, possible format are :\n    Burp (for BurpSuite)\n    Tamper (for TamperData - ENG)\n    TamperFR (for TamperData - FR)"
