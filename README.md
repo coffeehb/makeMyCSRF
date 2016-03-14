@@ -34,9 +34,12 @@ Basiccaly, you just have to copy the request content from your favorite tool.
 
 This video will show you how to get data from TamperData and use it with makeMyCSRF :
 
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/iRAc5slRGio/3.jpg)](https://www.youtube.com/watch?v=iRAc5slRGio "How to use makeMyCSRF with TamperData ")
+
 
 This video will show you how to get data from BurpSuite and use it with makeMyCSRF :
 
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/FywHxX72u8Y/3.jpg)](https://youtu.be/FywHxX72u8Y "How to use makeMyCSRF with BurpSuite ")
 
 ## Additionnal note
 Note that Tamper Data generated request will change following your browser language. For the moment, FR and ENG can be used. Please report any other needs or submit your code to process other language ! :)
