@@ -21,7 +21,7 @@ This JavaScript part will auto-submit the HTML form at load page.
 Create a file (e.g. "in.txt") in the same directory as the python script makeMyCSRF.py and know where your request comes from (BurpSuite or Tamper data). Next, execute the python script and specify your input file  ( "`-i`" option) and the used format ( "`-f`" option) : 
 ```
 python makeMyCSRF.py -i in.txt -f Tamper
-python makeMyCSRF.py -i in.txt -f BurpSuite
+python makeMyCSRF.py -i in.txt -f Burp
 ```
 
 Additionnaly, you can redirect the output in a file directly with "`-o`" option : 
@@ -42,6 +42,6 @@ This video will show you how to get data from BurpSuite and use it with makeMyCS
 [![IMAGE ALT TEXT](http://img.youtube.com/vi/FywHxX72u8Y/3.jpg)](https://youtu.be/FywHxX72u8Y "How to use makeMyCSRF with BurpSuite ")
 
 ## Additionnal note
-Note that Tamper Data generated request will change following your browser language. For the moment, FR and ENG can be used. Please report any other needs or submit your code to process other language ! :)
+Note that Tamper Data generated request will change ***following your browser language***. For the moment, FR and ENG can be used. Please report any other needs or submit your code to process other language ! :)
 
 Enjoy ! :)
