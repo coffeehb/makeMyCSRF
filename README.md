@@ -30,7 +30,7 @@ python makeMyCSRF.py -i in.txt -f BurpSuite -o index.html
 ```
 ## How to get request from TamperData / BurpSuite
 
-Basiccaly, you just have to copy the request content from your favorite tool.
+Basically, you just have to copy the request content from your favorite tool.
 
 This video will show you how to get data from TamperData and use it with makeMyCSRF :
 
